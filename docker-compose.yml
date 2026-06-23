@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: qos-postgres
+    environment:
+      POSTGRES_DB: monitoring_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "0000"
+    ports:
+      - "5433:5432"
+    volumes:
+      - qos_postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: qos-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/monitoring_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: "0000"
+
+volumes:
+  qos_postgres_data:
