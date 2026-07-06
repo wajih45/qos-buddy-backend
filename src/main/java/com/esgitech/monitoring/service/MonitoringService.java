@@ -104,7 +104,9 @@ public class MonitoringService {
                         + " = "
                         + savedMetric.getValue();
 
-                createAnomalyAndAlert(description, "HIGH");
+                String aiSeverity = savedMetric.getValue() > 90 ? "HIGH" : "MEDIUM";
+
+                createAnomalyAndAlert(description, aiSeverity);
             }
         }
 
